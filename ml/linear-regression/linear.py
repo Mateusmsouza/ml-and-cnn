@@ -1,5 +1,6 @@
 import math
 from statistics import mean, stdev
+from sklearn.metrics import r2_score
 
 
 class LinearRegression:
@@ -17,7 +18,10 @@ class LinearRegression:
     
     def predict(self, x: list):
         return [self.__predict(x_i) for x_i in x]
-        
+    
+    def score(self, x, y):
+        y_pred = self.predict(x)
+        return r2_score(y, y_pred)
 
     def _form(self, x):
         return self.a + self.b * x
@@ -34,13 +38,3 @@ class LinearRegression:
             denominator_t2 += math.pow((y_i - self.y_hat), 2)
         r = numerator/ math.sqrt(denominator_t1 * denominator_t2)
         return r
-    
-if __name__ == '__main__':
-    x_training = [5, 10, 20, 30, 40, 50]
-    y_training = [10, 20, 40, 60, 80, 100]
-
-    x_testing = [60, 70, 80]
-    linear_regresson = LinearRegression()
-    linear_regresson.fit(x_training, y_training)
-    predictions = linear_regresson.predict(x_testing)
-    print(predictions)
